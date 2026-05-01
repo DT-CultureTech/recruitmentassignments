@@ -5,7 +5,9 @@ const router = Router();
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('Incoming analysis request. Body keys:', Object.keys(req.body || {}));
     const transcript = String(req.body?.transcript || '').trim();
+    console.log('Transcript length:', transcript.length);
 
     if (!transcript) {
       return res.status(400).json({ error: 'Transcript is required.' });

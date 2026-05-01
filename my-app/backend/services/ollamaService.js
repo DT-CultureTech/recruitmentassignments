@@ -8,6 +8,7 @@ export async function callOllama(prompt, options = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), OLLAMA_TIMEOUT_MS);
 
+  console.log(`Calling Ollama model: ${OLLAMA_MODEL} with prompt length: ${prompt.length}`);
   const response = await fetch(OLLAMA_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,16 +16,18 @@ export async function callOllama(prompt, options = {}) {
     body: JSON.stringify({
       model: OLLAMA_MODEL,
       prompt,
-      format: 'json',
       stream: false,
       options: {
         temperature: options.temperature ?? 0.2,
         top_p: options.topP ?? 0.9,
-        num_ctx: options.numCtx ?? 8192,
+        num_ctx: options.numCtx ?? 4096,
         num_predict: options.numPredict ?? 1800
       }
     })
-  }).finally(() => clearTimeout(timeout));
+  }).finally(() => {
+    clearTimeout(timeout);
+    console.log('Ollama request finished (success or failure).');
+  });
 
   if (!response.ok) {
     const body = await response.text();

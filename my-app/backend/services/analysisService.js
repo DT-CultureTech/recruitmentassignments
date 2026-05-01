@@ -3,22 +3,39 @@ import { buildAnalysisPrompt, buildJsonRepairPrompt } from '../utils/promptBuild
 import { parseJsonFromText } from '../utils/jsonParser.js';
 import { validateAnalysis } from '../utils/analysisValidator.js';
 
+function validateOutput(data) {
+  // Adapted to handle both old (number) and new (object) score formats
+  const scoreValue = typeof data.score === 'object' ? data.score.value : data.score;
+  
+  if (!data.evidence || data.evidence.length < 3) return false;
+  if (!scoreValue || scoreValue < 1 || scoreValue > 10) return false;
+  if (!data.justification) return false;
+  // Handling both 'kpis' and 'kpiMapping' for compatibility
+  if (!Array.isArray(data.kpis) && !Array.isArray(data.kpiMapping)) return false;
+  return true;
+}
+
 export async function analyzeTranscript(transcript) {
   try {
     const firstPrompt = buildAnalysisPrompt(transcript);
+    console.log('Built first prompt. Length:', firstPrompt.length);
     const firstResponse = await callOllama(firstPrompt);
+    console.log('Received response from Ollama. Length:', firstResponse.length);
     const firstParsed = parseAndValidate(firstResponse);
+    console.log('Parsed response. OK:', firstParsed.ok);
 
-    if (firstParsed.ok) {
+    if (firstParsed.ok && validateOutput(firstParsed.data)) {
       return firstParsed.data;
     }
 
+    console.log('Validation failed or output incomplete. Retrying with repair prompt...');
+    
     // One repair retry keeps the API resilient without hiding persistent LLM failures.
-    const repairPrompt = buildJsonRepairPrompt(firstResponse, firstParsed.error);
+    const repairPrompt = buildJsonRepairPrompt(firstResponse, firstParsed.error || 'Output failed basic validation');
     const repairedResponse = await callOllama(repairPrompt, { temperature: 0 });
     const repairedParsed = parseAndValidate(repairedResponse);
 
-    if (repairedParsed.ok) {
+    if (repairedParsed.ok && validateOutput(repairedParsed.data)) {
       return repairedParsed.data;
     }
 

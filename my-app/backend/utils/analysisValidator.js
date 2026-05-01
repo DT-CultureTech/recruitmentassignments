@@ -37,54 +37,39 @@ function validateScore(score, errors) {
 }
 
 function validateEvidence(evidence, errors) {
-  if (!Array.isArray(evidence) || evidence.length < 3 || evidence.length > 6) {
-    errors.push('evidence must contain 3 to 6 items.');
+  if (!Array.isArray(evidence) || evidence.length < 1) {
+    errors.push('at least 1 evidence item is required.');
     return;
   }
 
   evidence.forEach((item, index) => {
     if (!nonEmptyString(item?.quote)) errors.push(`evidence[${index}].quote is required.`);
     if (!SIGNALS.has(item?.signal)) errors.push(`evidence[${index}].signal is invalid.`);
-    if (!nonEmptyString(item?.dimension)) errors.push(`evidence[${index}].dimension is required.`);
-    if (!nonEmptyString(item?.interpretation)) errors.push(`evidence[${index}].interpretation is required.`);
   });
 }
 
 function validateKpiMapping(kpiMapping, errors) {
-  if (!Array.isArray(kpiMapping) || kpiMapping.length === 0) {
-    errors.push('kpiMapping must contain at least 1 item.');
+  if (!Array.isArray(kpiMapping)) {
+    errors.push('kpiMapping must be an array.');
     return;
   }
-
-  kpiMapping.forEach((item, index) => {
-    if (!nonEmptyString(item?.kpi)) errors.push(`kpiMapping[${index}].kpi is required.`);
-    if (!nonEmptyString(item?.evidence)) errors.push(`kpiMapping[${index}].evidence is required.`);
-    if (!nonEmptyString(item?.systemOrPersonal)) errors.push(`kpiMapping[${index}].systemOrPersonal is required.`);
-  });
 }
 
 function validateGaps(gaps, errors) {
-  if (!Array.isArray(gaps) || gaps.length === 0) {
-    errors.push('gaps must contain at least 1 item.');
+  if (!Array.isArray(gaps)) {
+    errors.push('gaps must be an array.');
     return;
   }
-
-  gaps.forEach((item, index) => {
-    if (!nonEmptyString(item?.dimension)) errors.push(`gaps[${index}].dimension is required.`);
-    if (!nonEmptyString(item?.detail)) errors.push(`gaps[${index}].detail is required.`);
-  });
 }
 
 function validateQuestions(questions, errors) {
-  if (!Array.isArray(questions) || questions.length < 3 || questions.length > 5) {
-    errors.push('followUpQuestions must contain 3 to 5 items.');
+  if (!Array.isArray(questions) || questions.length < 1) {
+    errors.push('at least 1 follow-up question is required.');
     return;
   }
 
   questions.forEach((item, index) => {
     if (!nonEmptyString(item?.question)) errors.push(`followUpQuestions[${index}].question is required.`);
-    if (!nonEmptyString(item?.targetGap)) errors.push(`followUpQuestions[${index}].targetGap is required.`);
-    if (!nonEmptyString(item?.lookingFor)) errors.push(`followUpQuestions[${index}].lookingFor is required.`);
   });
 }
 

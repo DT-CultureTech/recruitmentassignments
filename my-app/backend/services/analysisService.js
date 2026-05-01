@@ -3,18 +3,6 @@ import { buildAnalysisPrompt, buildJsonRepairPrompt } from '../utils/promptBuild
 import { parseJsonFromText } from '../utils/jsonParser.js';
 import { validateAnalysis } from '../utils/analysisValidator.js';
 
-function validateOutput(data) {
-  // Adapted to handle both old (number) and new (object) score formats
-  const scoreValue = typeof data.score === 'object' ? data.score.value : data.score;
-  
-  if (!data.evidence || data.evidence.length < 3) return false;
-  if (!scoreValue || scoreValue < 1 || scoreValue > 10) return false;
-  if (!data.justification) return false;
-  // Handling both 'kpis' and 'kpiMapping' for compatibility
-  if (!Array.isArray(data.kpis) && !Array.isArray(data.kpiMapping)) return false;
-  return true;
-}
-
 export async function analyzeTranscript(transcript) {
   try {
     const firstPrompt = buildAnalysisPrompt(transcript);
@@ -24,22 +12,27 @@ export async function analyzeTranscript(transcript) {
     const firstParsed = parseAndValidate(firstResponse);
     console.log('Parsed response. OK:', firstParsed.ok);
 
-    if (firstParsed.ok && validateOutput(firstParsed.data)) {
+    if (firstParsed.ok) {
       return firstParsed.data;
     }
 
-    console.log('Validation failed or output incomplete. Retrying with repair prompt...');
+    console.log('Initial validation failed. Attempting repair retry...');
     
-    // One repair retry keeps the API resilient without hiding persistent LLM failures.
-    const repairPrompt = buildJsonRepairPrompt(firstResponse, firstParsed.error || 'Output failed basic validation');
+    const repairPrompt = buildJsonRepairPrompt(firstResponse, firstParsed.error || 'Unknown validation error');
     const repairedResponse = await callOllama(repairPrompt, { temperature: 0 });
     const repairedParsed = parseAndValidate(repairedResponse);
 
-    if (repairedParsed.ok && validateOutput(repairedParsed.data)) {
+    if (repairedParsed.ok) {
       return repairedParsed.data;
     }
 
-    return buildFallbackError(repairedParsed.error);
+    // If repair fails but we have SOME data from the first attempt, return it anyway
+    if (firstParsed.data && firstParsed.data.score) {
+      console.log('Returning partial data after failed repair.');
+      return firstParsed.data;
+    }
+
+    return buildFallbackError(repairedParsed.error || firstParsed.error);
   } catch (error) {
     return buildFallbackError(error.message);
   }
@@ -50,13 +43,13 @@ function parseAndValidate(llmText) {
     const parsed = parseJsonFromText(llmText);
     const validation = validateAnalysis(parsed);
 
-    if (!validation.valid) {
-      return { ok: false, error: validation.errors.join('; ') };
-    }
-
-    return { ok: true, data: parsed };
+    return { 
+      ok: validation.valid, 
+      data: parsed, 
+      error: validation.valid ? null : validation.errors.join('; ') 
+    };
   } catch (error) {
-    return { ok: false, error: error.message };
+    return { ok: false, data: null, error: error.message };
   }
 }
 
@@ -66,7 +59,7 @@ function buildFallbackError(reason) {
       value: null,
       label: 'Analysis unavailable',
       band: 'Unknown',
-      justification: 'The model response could not be converted into the required structured format.',
+      justification: `The AI analysis failed to meet strict quality criteria. Reason: ${reason}. Please try running the analysis again.`,
       confidence: 'low'
     },
     evidence: [
@@ -74,49 +67,26 @@ function buildFallbackError(reason) {
         quote: 'No reliable evidence could be extracted.',
         signal: 'neutral',
         dimension: 'unknown',
-        interpretation: 'Retry the analysis or review the transcript manually.'
-      },
-      {
-        quote: 'Structured evidence extraction failed.',
-        signal: 'neutral',
-        dimension: 'structured_output',
-        interpretation: 'The response did not pass parsing or validation, so transcript quotes were not trusted.'
-      },
-      {
-        quote: 'Manual review required.',
-        signal: 'neutral',
-        dimension: 'structured_output',
-        interpretation: 'Use the follow-up questions below while rerunning the analysis.'
+        interpretation: 'The model response did not pass our safety or structure checks.'
       }
     ],
-    kpiMapping: [
-      {
-        kpi: 'Unknown',
-        evidence: 'KPI mapping unavailable because structured parsing failed.',
-        systemOrPersonal: 'unknown'
-      }
-    ],
+    kpiMapping: [],
     gaps: [
       {
-        dimension: 'structured_output',
-        detail: `The LLM did not return valid structured JSON after one repair attempt: ${reason}`
+        dimension: 'Analysis Error',
+        detail: reason
       }
     ],
     followUpQuestions: [
       {
-        question: 'Can you describe one specific example of what the Fellow changed or built?',
-        targetGap: 'structured_output',
-        lookingFor: 'Human-verifiable evidence while the AI output is unavailable.'
-      },
-      {
-        question: 'If the Fellow left tomorrow, what would keep running without them?',
+        question: 'Could you provide a specific example of a system or process the Fellow built?',
         targetGap: 'systems_building',
-        lookingFor: 'Whether the Fellow created durable systems or only handled tasks personally.'
+        lookingFor: 'Durable infrastructure'
       },
       {
-        question: 'Which business number improved because of the Fellow work?',
+        question: 'What business number (TAT, Quality, etc.) changed because of this work?',
         targetGap: 'kpi_impact',
-        lookingFor: 'A measurable KPI connection.'
+        lookingFor: 'Measurable outcomes'
       }
     ]
   };

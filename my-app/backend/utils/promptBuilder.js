@@ -34,62 +34,103 @@ ${KPI_SUMMARY}
 Assessment dimensions:
 ${DIMENSION_SUMMARY}
 
+Important diagnostic tools:
+- The Survivability Test: If the Fellow left tomorrow, would the system they built continue running? (Yes = systems building, No = task execution).
+- Watch for Supervisor Biases:
+  1. Helpfulness bias: "She handles all my calls" is task absorption (Score 5-6), not systems building.
+  2. Presence bias: "He's always on the floor" is presence, not necessarily performance.
+  3. Recency bias: Focus on the full 3-6 month tenure, not just the last week.
+
 Important scoring rules:
-- Score 6 means reliable execution of assigned work.
-- Score 7 requires independent problem identification beyond assigned tasks.
-- Do not over-score task absorption, helpfulness, personal heroics, or being constantly present.
-- Reward durable systems: SOPs, trackers, dashboards, workflows, accountability structures, or processes that can run without the Fellow.
-- Detect gaps in these dimensions: ${DIMENSION_IDS}.
-- Map KPI impact only to these KPIs: ${KPI_NAMES}.
+- Score 6: Excellent executor of tasks defined by others. "He does everything I give him."
+- Score 7: Independent problem identification. "She noticed a pattern I hadn't seen and started tracking it."
+- A 6 takes initiative within assigned scope. A 7 expands the scope.
 
 Required JSON schema:
 {
   "score": {
     "value": 1-10,
-    "label": "rubric label",
+    "label": "rubric label from rubric.json",
     "band": "Need Attention | Productivity | Performance",
-    "justification": "one paragraph grounded in evidence",
+    "justification": "one paragraph grounded in evidence and addressing biases",
     "confidence": "low | medium | high"
   },
   "evidence": [
     {
       "quote": "exact quote from transcript",
       "signal": "positive | negative | neutral",
-      "dimension": "execution | systems_building | kpi_impact | change_management | problem_identification",
-      "interpretation": "why this quote matters"
+      "dimension": "execution | systems_building | kpi_impact | change_management",
+      "interpretation": "why this matters for the score"
     }
   ],
   "kpiMapping": [
     {
-      "kpi": "one KPI label from the allowed list or None",
-      "evidence": "plain-language KPI evidence from transcript",
-      "systemOrPersonal": "system | personal | mixed | none"
+      "kpi": "one KPI label (e.g., Quality, TAT, NPS, PAT)",
+      "evidence": "plain-language summary of impact",
+      "systemOrPersonal": "system | personal"
     }
   ],
   "gaps": [
     {
-      "dimension": "missing or weak assessment dimension",
-      "detail": "what the transcript does not cover"
+      "dimension": "missing dimension",
+      "detail": "what was not discussed"
     }
   ],
   "followUpQuestions": [
     {
-      "question": "specific question the intern should ask next",
-      "targetGap": "gap this question addresses",
+      "question": "specific question for next call",
+      "targetGap": "dimension it targets",
       "lookingFor": "what a useful answer would reveal"
     }
   ]
 }
 
 Hard requirements:
-- evidence must contain 3 to 6 items.
-- Each evidence.quote must be copied from the transcript.
-- Every evidence.signal must be positive, negative, or neutral.
-- kpiMapping must contain at least 1 item. Use kpi "None" only if no KPI evidence exists.
-- gaps must contain at least 1 item.
-- followUpQuestions must contain 3 to 5 items.
-- Do not return empty arrays.
-- Do not invent facts not in the transcript.
+- evidence: at least 3 items.
+- followUpQuestions: at least 3 items.
+- kpiMapping: at least 1 item.
+- gaps: at least 1 item.
+- Each evidence.quote must be an exact substring from the transcript.
+- Do not return empty arrays or null for required sections.
+
+Example JSON:
+{
+  "score": {
+    "value": 6,
+    "label": "Reliable and Productive",
+    "band": "Productivity",
+    "justification": "The supervisor describes strong task execution...",
+    "confidence": "medium"
+  },
+  "evidence": [
+    {
+      "quote": "He helps me with production tracking. Every evening he updates it...",
+      "signal": "positive",
+      "dimension": "execution",
+      "interpretation": "Reliable daily task completion"
+    }
+  ],
+  "kpiMapping": [
+    {
+      "kpi": "Quality",
+      "evidence": "Handles quality complaints from Tier 1 customers",
+      "systemOrPersonal": "personal"
+    }
+  ],
+  "gaps": [
+    {
+      "dimension": "systems_building",
+      "detail": "Transcript mentions one system but it's personally maintained."
+    }
+  ],
+  "followUpQuestions": [
+    {
+      "question": "If Karthik took a week off, what would stop working?",
+      "targetGap": "systems_building",
+      "lookingFor": "Sustainability of work"
+    }
+  ]
+}
 
 Transcript:
 """
@@ -103,10 +144,10 @@ export function buildJsonRepairPrompt(badResponse, parseError) {
 Fix the following LLM output into STRICT valid JSON only.
 Do not add markdown, explanations, or extra keys.
 Preserve the intended meaning, but ensure all required fields exist and non-empty arrays meet these counts:
-- evidence: 3 to 6 items
+- evidence: at least 3 items
 - kpiMapping: at least 1 item
 - gaps: at least 1 item
-- followUpQuestions: 3 to 5 items
+- followUpQuestions: at least 3 items
 
 Validation problem:
 ${parseError}

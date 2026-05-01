@@ -101,7 +101,7 @@ function AnalysisView({ analysis }) {
         <div>
           <p className="section-label">Score</p>
           <h2>
-            {analysis.score.value ?? '-'} <span>/ 10</span>
+            {analysis.score.value ?? 'N/A'} <span>/ 10</span>
           </h2>
         </div>
         <div>

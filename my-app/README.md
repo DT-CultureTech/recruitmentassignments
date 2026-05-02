@@ -57,9 +57,6 @@ Automated tests: (Not included, but recommended for production)
 
 Pull requests and suggestions are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-## Overview
-
-This project is a full-stack AI-powered web application for analyzing supervisor feedback transcripts, built for the DeepThought Software Developer Role Simulation Assignment. The tool leverages a **local LLM (Ollama)** to generate structured, reviewable insights for psychology interns, reducing manual analysis time while maintaining human oversight.
 
 ---
 
@@ -73,7 +70,10 @@ This project is a full-stack AI-powered web application for analyzing supervisor
 - [Usage](#usage)
 - [Ollama Model Choice](#ollama-model-choice)
 - [Design Challenges Tackled](#design-challenges-tackled)
+- [Hand drawn diagram](#hand-drawn-diagram)
+- [Videos Drive Link](#videos-drive-link)
 - [What I'd Improve With More Time](#what-id-improve-with-more-time)
+
 
 ---
 
@@ -208,6 +208,22 @@ UI (user reviews)
   - UI is clean, minimal, and avoids technical jargon
   - All AI output is presented in plain language, with clear sectioning
   - Disclaimer warns users not to blindly trust AI output
+
+---
+
+## Hand drawn diagram
+![Flow Diagram](/my-app/readme-assets/DeepThought-assgn.jpeg)
+
+---
+## Videos Drive Link:
+
+🔗 **App Demo Video:** https://docs.google.com/videos/d/18mZj0QlExJoLyrzTERGP660bwyG7ygbrPkF05Yn1zHk/edit?usp=sharing
+
+
+
+🔗 **Code Walkthrough Video:** https://docs.google.com/videos/d/1Sfg0ZYQTvLHNKjh0G_EB4Mu6OfBTCDh1rvLVWJthiGM/edit?usp=sharing
+
+
 
 ---
 

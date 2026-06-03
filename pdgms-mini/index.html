@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">TRACKER</span>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-item active" data-view="grid" title="Grid View">
+                    <span class="icon">⊞</span> <span class="label">Grid</span>
+                </button>
+                <button class="nav-item" data-view="commitments" title="Commitments">
+                    <span class="icon">◈</span> <span class="label">Commitments</span>
+                </button>
+                <button class="nav-item" data-view="specs" title="Specs">
+                    <span class="icon">◎</span> <span class="label">Specs</span>
+                </button>
+                <button class="nav-item" data-view="tickets" title="Board View">
+                    <span class="icon">⊞</span> <span class="label">Board</span>
+                </button>
+                <button class="nav-item" data-view="decompose" title="Decompose View">
+                    <span class="icon">☊</span> <span class="label">Decompose</span>
+                </button>
+                <button class="nav-item" data-view="reflections" title="Reflections">
+                    <span class="icon">◌</span> <span class="label">Reflections</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="content-wrapper">
+            <!-- Header / Toolbar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="globalSearch" placeholder="Search anything (title, tag, ID)..." autocomplete="off">
+                </div>
+                <div class="actions">
+                    <button id="btnCreate" class="btn-primary">+ Create Item</button>
+                </div>
+            </header>
+
+            <!-- Dynamic View Container -->
+            <section id="viewContainer" class="view-container">
+                <!-- Views will be injected here by app.js -->
+            </section>
+        </main>
+
+        <!-- Overlays -->
+        <div id="modalOverlay" class="overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Create New Item</h2>
+                    <button class="btn-close" id="btnCloseModal">×</button>
+                </div>
+                <form id="createForm" class="modal-body">
+                    <div class="form-group">
+                        <label>Item Type</label>
+                        <select id="itemType" required>
+                            <option value="commitment">Commitment (◈)</option>
+                            <option value="spec">Spec (◎)</option>
+                            <option value="ticket">Ticket (◧)</option>
+                            <option value="reflection">Reflection (◌)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="itemTitle" placeholder="What is this item?" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Item (Optional)</label>
+                        <select id="parentItem">
+                            <option value="">No Parent</option>
+                            <!-- Options injected by app.js -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="contentLabel">Description</label>
+                        <textarea id="itemContent" rows="4" placeholder="Add more detail..." required></textarea>
+                        <div id="charCount" class="char-count hidden">0 characters</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vLayer">Vertical Axis</label>
+                            <select id="vLayer" required>
+                                <!-- Options injected by app.js -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hStage">Horizontal Axis</label>
+                            <select id="hStage" required>
+                                <!-- Options injected by app.js -->
+                            </select>
+                        </div>
+                    </div>
+                    <div id="ticketFields" class="form-group hidden">
+                        <label>Initial Status</label>
+                        <select id="ticketStatus">
+                            <option value="backlog">Backlog</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn-primary">Create Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Detail Panel -->
+        <div id="detailPanel" class="detail-panel hidden">
+            <button class="btn-close-panel" id="btnClosePanel">×</button>
+            <div id="detailContent" class="detail-content">
+                <!-- Content injected by app.js -->
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

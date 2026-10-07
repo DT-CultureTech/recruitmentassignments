@@ -106,33 +106,40 @@
     "confidence_bands": "low < directional < strong. A direction is later reconciled as validated, contradicted or insufficient (too early or too thin to tell).",
     "bridge": [
       {
-        "lever": "Shift 8 points of volume from commodity to specialty",
-        "rs_cr": 8.1,
+        "lever": "Shift 4 points of volume (about 305 t) from commodity to specialty",
+        "rs_cr": 7.6,
         "owner_level": "V4 Marketing + V4 Plant",
         "confidence": "low",
-        "why_this_confidence": "No named buyer yet holds more than 40 t a year of specialty demand."
+        "why_this_confidence": "No named buyer yet holds more than 40 t a year of specialty demand.",
+        "arithmetic": "305,000 kg x (Rs 280 - Rs 31 contribution per kg)"
       },
       {
-        "lever": "Close 2 points of the price gap on the five largest traders",
-        "rs_cr": 2.2,
+        "lever": "Close 2 points of the price gap on the five largest accounts",
+        "rs_cr": 3.7,
         "owner_level": "V5 (pricing is the MD's call)",
         "confidence": "directional",
-        "why_this_confidence": "Peer-price comparison covers 75-88% of their kilos."
+        "why_this_confidence": "Peer-price comparison covers 75-88% of their kilos.",
+        "arithmetic": "2% of Rs 184.4 Cr, the five largest accounts' FY26 revenue"
       },
       {
-        "lever": "Halve colour-family changeover losses by sequencing",
-        "rs_cr": 0.85,
+        "lever": "Halve colour-family write-offs at extrusion by sequencing",
+        "rs_cr": 1.3,
         "owner_level": "V4 Plant",
         "confidence": "directional",
-        "why_this_confidence": "Changeover count is logged; loss per change is an engineering estimate."
+        "why_this_confidence": "Changeover count is logged; loss per change is an engineering estimate.",
+        "arithmetic": "half of 168 colour-family changes a year at extrusion x Rs 1.58 lakh write-off"
       },
       {
-        "lever": "New accounts that buy on specification, not price",
-        "rs_cr": 1.5,
+        "lever": "Two new accounts buying about 25 t a year each of specialty",
+        "rs_cr": 1.4,
         "owner_level": "V4 Marketing",
         "confidence": "low",
-        "why_this_confidence": "Two pursuits past sampling in 12 months."
+        "why_this_confidence": "Two pursuits past sampling in 12 months.",
+        "arithmetic": "2 x 25,000 kg x Rs 280 contribution per kg"
       }
-    ]
+    ],
+    "gap_cr": 10.6,
+    "bridge_total_cr": 14.0,
+    "bridge_note": "The levers add up to more than the gap. The owners expect some of them to fall short."
   }
 }

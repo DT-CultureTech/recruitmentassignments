@@ -74,7 +74,7 @@ A plant moves only as fast as its slowest stage. If extrusion lines sit idle whi
 
 | Kind | What they buy on |
 |---|---|
-| **Traders** | Price and availability. Large volumes, resold to many small weavers. Anantha's five largest accounts are traders. |
+| **Traders** | Price and availability. Large volumes, resold to many small weavers. Four of Anantha's five largest accounts are traders. |
 | **Weavers and knitters** | Price, consistency, delivery. They make fabric. |
 | **Brands that also make** | Specification. They write a technical spec, test against it, and pay for a yarn that passes. Few, slow to win, valuable. |
 

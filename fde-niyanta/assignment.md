@@ -4,7 +4,7 @@
 
 Anantha Filament Works makes polyester yarn in Coimbatore. **It is fictional.** We built it from a real company we work with, and changed every name and every number. The problems are the real ones. Your job is to build the screen its owners open every morning.
 
-**Read [`context/`](context/) first** (about 30 minutes): how PDGMS describes a company on its 5×5 grid, what each level V1 to V5 does, what Niyanta must and must not do, and enough about a yarn plant to see why the owners argue. Then the data in [`data/`](data/), starting with [`data/README.md`](data/README.md).
+**Read [`context/`](context/) first** (about 45 minutes): how PDGMS describes a company on its 5×5 grid, what each level V1 to V5 does, what Niyanta must and must not do, how a yarn plant makes and loses money, how the four owners work today, the job Ritika and Aditya do, the goal and its levers, and a plan for the 48 hours. Then the data in [`data/`](data/), starting with [`data/README.md`](data/README.md).
 
 ---
 
@@ -19,7 +19,7 @@ Anantha melts plastic chips, spins them into filament on 14 lines, and sells the
 | What the owners have committed to the board | ₹24 Cr EBITDA by end of FY28, on about the same tonnage |
 | Plant | 9,200 t a year, running at 83% |
 | Where the money is | 62% of volume is commodity yarn earning 8%. 7% is specialty earning 40%. |
-| Customers | 47 active. Five traders are 58% of revenue. |
+| Customers | 47 active. Five accounts are 58% of revenue; four of them are traders. |
 | Selling | 9 people. The plant takes about ten days to answer a customer's sample request. |
 
 The owners cannot reach ₹24 Cr by selling more of the same. They have to sell different yarn to different customers, and the plant has to make it without breaking the delivery dates it already misses.
@@ -65,7 +65,7 @@ A working web app on the data pack. Any stack. Four logins: Kartik, Pranav, Bhan
 
 ### The one journey we will watch
 
-Escalation `E10` in [`data/escalations.json`](data/escalations.json): Karnavati, one of the five big traders, offers 18 tonnes of commodity yarn at ₹352 a kilo to fill an idle line in October. Others pay about ₹380 for the same yarn. Kartik has an existing direction about orders like this, and Bhandari has already responded to it.
+Escalation `E10` in [`data/escalations.json`](data/escalations.json): Karnavati, a trader and one of the five largest accounts, offers 18 tonnes of commodity yarn at ₹352 a kilo to fill an idle line in October. Others pay about ₹380 for the same yarn. Kartik has an existing direction about orders like this, and Bhandari has already responded to it.
 
 Take it from Aditya raising it, through Kartik deciding, to what Bhandari and Kamath each see as a result, and back to Aditya. Then show where that decision will be when the direction comes up for review.
 

@@ -4,7 +4,7 @@
 
 Anantha Filament Works makes polyester yarn in Coimbatore. **It is fictional.** We built it from a real company we work with, and changed every name and every number. The problems are the real ones. Your job is to build the screen its owners open every morning.
 
-The data is in [`data/`](data/). Start with [`data/README.md`](data/README.md).
+**Read [`context/`](context/) first** (about 30 minutes): how PDGMS describes a company on its 5×5 grid, what each level V1 to V5 does, what Niyanta must and must not do, and enough about a yarn plant to see why the owners argue. Then the data in [`data/`](data/), starting with [`data/README.md`](data/README.md).
 
 ---
 

@@ -103,6 +103,7 @@
     "set_on": "2026-04-14",
     "statement": "EBITDA from Rs 13.4 Cr to Rs 24 Cr by the end of FY28, on roughly the same tonnage.",
     "review": "Quarterly, with the board.",
+    "confidence_bands": "low < directional < strong. A direction is later reconciled as validated, contradicted or insufficient (too early or too thin to tell).",
     "bridge": [
       {
         "lever": "Shift 8 points of volume from commodity to specialty",
@@ -115,21 +116,21 @@
         "lever": "Close 2 points of the price gap on the five largest traders",
         "rs_cr": 2.2,
         "owner_level": "V5 (pricing is the MD's call)",
-        "confidence": "medium",
+        "confidence": "directional",
         "why_this_confidence": "Peer-price comparison covers 75-88% of their kilos."
       },
       {
         "lever": "Halve colour-family changeover losses by sequencing",
         "rs_cr": 0.85,
         "owner_level": "V4 Plant",
-        "confidence": "medium",
+        "confidence": "directional",
         "why_this_confidence": "Changeover count is logged; loss per change is an engineering estimate."
       },
       {
         "lever": "New accounts that buy on specification, not price",
         "rs_cr": 1.5,
         "owner_level": "V4 Marketing",
-        "confidence": "insufficient",
+        "confidence": "low",
         "why_this_confidence": "Two pursuits past sampling in 12 months."
       }
     ]

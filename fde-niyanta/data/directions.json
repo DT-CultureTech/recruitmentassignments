@@ -27,6 +27,7 @@
       }
     ],
     "evidence_so_far": "Specialty volume Aug-Sep: 7.4% of output against 7.0% before. Two months; too little to read.",
+    "reconciliation_so_far": "insufficient",
     "status": "in force, not yet reviewed"
   },
   {
@@ -36,7 +37,7 @@
     "level": "V5",
     "direction": "Win two accounts in curtains or upholstery that buy on specification before the end of Q4, and show the sales team how they were won.",
     "rationale": "The sales team will believe a win, not a presentation.",
-    "confidence_when_set": "insufficient",
+    "confidence_when_set": "low",
     "review_by": "2026-12-31",
     "responses": [
       {
@@ -47,6 +48,7 @@
       }
     ],
     "evidence_so_far": "Silvara at Quote sent. Hearthline at SQL, waiting on a trial decision (E06).",
+    "reconciliation_so_far": "insufficient",
     "status": "in force"
   }
 ]
